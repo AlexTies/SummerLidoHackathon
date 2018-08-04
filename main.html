@@ -1,0 +1,690 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="json.js"></script>
+  <style>
+  body {
+    font-family: 'PT Sans', sans-serif;
+    margin: 0;
+      margin-top: 50px;
+  }
+  a {
+    text-decoration: none;
+  }
+  nav {
+      width: 280px;
+    background-color: #e0e0e0;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: -280px;
+    bottom: 0;
+    transition: 0.3s;
+    z-index: 3;
+}
+nav.open {
+  left: 0;
+  box-shadow: 0 0 16px 0px #00000059;
+}
+    nav h6 {
+      color: #e91e63;
+    font-weight: 900;
+    margin: 3px 10;
+    font-size: 13px;
+    }
+  nav a {
+    display: block;
+     padding: 7px 10px;
+    margin-left: 5px;
+    border-bottom: 1px solid gray;
+  }
+  nav a i {
+    color: black;
+      display: inline-table;
+    vertical-align: middle;
+  }
+  nav a span {
+    color: black;
+      display: inline-table;
+    vertical-align: middle;
+  }
+  section.profil {
+    height: 180px;
+    position: relative;
+    background: linear-gradient(116deg, #757575 69%,#e91e63 31%);
+    color: white;
+  }
+  .profil .text {
+    bottom: 0;
+    position: absolute;
+    left: 0;
+      padding: 0 15 15 15;
+  }
+  .profil a[onclick="openMenu()"] {
+    position: absolute;
+    left: 0;
+    padding: 12px;
+    color: white;
+    border-bottom: none;
+
+  }
+  .profil a[onclick="openMenu()"] i {
+    color: white;
+  }
+  .profil img {
+    height: 60px;
+    width: 60px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+  .profil .text .title {
+    display: block;
+    font-size: 20px;
+  }
+  .profil .text .untertitel {
+    display: block;
+  }
+  main.appwindow {
+      text-align: center;
+      transition: 0.3s;
+     margin-bottom: 50px;
+  }
+
+  .disabled {
+    display: none !important;
+  }
+  section.eintrag_container {
+    width: 100vw;
+    max-width: 450px;
+      display: inline-block;
+    text-align: left;
+     vertical-align: top;
+  }
+  .eintrag {
+      background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 9px #0000005e;
+      margin: 10;
+     overflow: hidden;
+
+  }
+  .eintrag .weil {
+      font-weight: 900;
+    color: #b0003a;
+    margin: 2px 5px;
+     padding: 3px 2px;
+    display: block;
+    font-size: 13px;
+  }
+  .eintrag .points {
+      font-weight: 100;
+    color: #1a6f8a;
+    margin: 2px 5px;
+    padding: 3px 8px;
+    display: block;
+    font-size: 24px;
+  }
+  .eintrag .imgcont {
+    width: 100%;
+     height: 180px;
+    position: relative;
+     background-position: center;
+    background-size: cover;
+  }
+  .eintrag .imgcont .img_title {
+
+      position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    padding: 10;
+    font-size: 30px;
+     font-weight: 900;
+  }
+  .tagcol {
+    color: black;
+  }
+  .tagcol .tag {
+      padding: 5px 12px;
+    margin: 6px 0 0 6px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px -1px #00000042;
+    color: black;
+    display: inline-block;
+    font-size: 14;
+  }
+  .eintrag .infobuttons {
+    text-align: right;
+  }
+
+  .eintrag .infobuttons span.ordered {
+    display: none;
+  }
+  .eintrag .infobuttons a {
+      padding: 5px 12px;
+    display: inline-block;
+    margin: 6px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px -1px #00000082;
+    color: #429491;
+  }
+  .eintrag .infobuttons.ord span.ordered {
+     font-size: 16px;
+    margin: 8 10 4 10;
+    color: #009688;
+    display: block;
+    font-weight: 900;
+  }
+
+  .eintrag .infobuttons.ord a {
+    display: none;
+  }
+  .status {
+      height: 50px;
+    color: white;
+    background-color: #e91e63;
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  .status a[onclick="openMenu()"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .status a[onclick="openMenu()"] i{
+    padding: 10px;
+    font-size: 30px;
+    color: white;
+  }
+  .status span {
+      font-size: 20px;
+    padding: 12px 0;
+    text-align: center;
+    display: block;
+  }
+  .haupteintrag_cont {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    position: fixed;
+    z-index: 2;
+     background: #00000099;
+     transition: 0.3s;
+  }
+  .haupteintrag {
+      width: 100vw;
+    max-width: 450px;
+    background: white;
+    height: 100%;
+    margin: 0 auto;
+    z-index: 5;
+    box-shadow: 0 0 11px 4px #00000057;
+    transition: 0.3s;
+     overflow-y: auto;
+    overflow-x: hidden;
+
+
+  }
+  .haupteintrag_cont.closed {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .haupteintrag_cont.closed .haupteintrag {
+    margin-top: 50px;
+  }
+  .haupteintrag header .image {
+      position: relative;
+    background-position: center;
+    background-size: cover;
+    height: 210px;
+      background-image: url(montigglersee.jpg);
+  }
+
+  .haupteintrag header .image a[onclick="closeInfo()"]{
+    position: absolute;
+    padding: 10px;
+    right: 0;
+    top: 0;
+  }
+  .haupteintrag header .image a[onclick="closeInfo()"] i{
+    color: white;
+     text-shadow: 0 0 10px #000000e8;
+  }
+  .haupteintrag header .image .text {
+      position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 10px 20px;
+  }
+  .haupteintrag header .image span {
+     text-shadow: 0 0 14px black;
+     color: white;
+  }
+  .haupteintrag header .image span.ueber {
+    display: block;
+    font-size: 24px;
+    font-weight: 900;
+  }
+  .haupteintrag header .image span.unter {
+    display: block;
+     font-size: 14px;
+  }
+  .haupteintrag .gamepoints {
+    display: block;
+    font-size: 24px;
+    font-weight: 100;
+     color: #2ca0a0;
+     margin: 0 10px;
+  }
+  h2 {
+      font-size: 14px;
+    margin: 8 10 4 10;
+    color: #b0003a;
+  }
+  p {
+      font-size: 14px;
+    margin: 0 10px;
+  }
+  .eintrag p {
+      margin: 7px 10px;
+    }
+    .haupteintrag a.save {
+      padding: 5px 12px;
+    display: inline-block;
+    margin: 6px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px -1px #00000082;
+    color: #429491;
+    }
+    .haupteintrag a.remove {
+      padding: 5px 12px;
+    display: inline-block;
+    margin: 6px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px -1px #00000082;
+    color: darkred;
+    }
+    .imglist img {
+      width: 100vw;
+    max-width: 450px;
+  }
+
+  nav footer {
+    height: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    z-index: 600;
+    background-color: #F2F2F2;
+    box-shadow: 0px 0px 18px 0px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+  footer a {
+      display: inline-block;
+    padding: 4 10;
+    border: none;
+  }
+  footer a i.material-icons {
+    display: table;
+    margin: 0 auto;
+  }
+  footer a span {
+      font-size: 14px;
+  }
+
+  </style>
+</head>
+<body>
+  <header class="status">
+    <a href="javascript:void(0)" onclick="openMenu()"><i class="material-icons">menu</i></a>
+    <span id="title">Explore</span>
+  </header>
+  <nav id=nav>
+    <header>
+      <section class="profil">
+      <a onclick="openMenu()" href="javascript:void(0)"><i class="material-icons">arrow_back</i></a>
+        <img  />
+        <div class="text">
+          <span class="title">Franz Schwarz</span>
+          <span class="untertitel">Berlin</span>
+        </div>
+      </section>
+      <h6>DEBUG</h6>
+        <a href="javascript:void(0)" onclick="detectBeacon()">
+        <i class="material-icons">pets</i>
+        <span>Beacon Auslösen</span>
+        </a>
+    </header>
+    <footer>
+      <a href="javascript:void(0)" onclick="changeTab(0)">
+      <i class="material-icons">explore</i>
+      <span>Explore</span>
+      </a>
+      <a href="javascript:void(0)" onclick="changeTab(1)">
+        <i class="material-icons">public</i>
+        <span>Destinations</span>
+      </a>
+      <a href="javascript:void(0)" onclick="changeTab(2)">
+        <i class="material-icons">card_giftcard</i>
+        <span>Gifts</span>
+      </a>
+      <a href="javascript:void(0)" onclick="changeTab(3)">
+        <i class="material-icons">favorite_border</i>
+        <span>Memories</span>
+      </a>
+    </footer>
+  </nav>
+  <div class="haupteintrag_cont closed" id="info">
+    <section class="haupteintrag">
+      <header>
+        <div class="image" id="iimage">
+          <a href="javascript:void(0)" onclick="closeInfo()"><i class="material-icons">close</i></a>
+          <div class="text">
+          <span class="ueber" id="ititel">Lido Montiggl</span>
+          <!--<span class="unter">Schwimmbad in Montiggl, Eppan</span>-->
+        </div>
+        </div>
+      </header>
+
+      <main id=openactivity>
+        <h2>POINTS</h2>
+        <p id="ipoint">20 Points</p>
+        <h2>BESCHREIBUNG</h2>
+        <p id="idesc">Der See ist gefüllt mit Wasser. Wasseriges Wasser. Darin kann man schwimmen (weil es wasser ist)</p>
+        <h2>ÖFFNUNGSZEITEN</h2>
+        <p>Mo-Fr: 08:00 - 21:00</p>
+          <a class="save" id=addtosaved href="javascript:void(0)" onclick="">AKTIVITÄT SPEICHERN</a>
+          <div id="itags">
+
+          </div>
+      </main>
+      <main id=openbeacon class="disabled">
+        <h2>DESTINATION VISITED</h2>
+        <p id="idesc">You are visiting the Therme Meran.</p>
+        <span class="gamepoints">+ <b id="ipoint2">5</b> Points</span>
+
+      </main>
+      <main id=openmemory class="disabled">
+        <h2>POINTS</h2>
+        <p id="ipoint3">20 Points</p>
+        <h2>VISTED AT</h2>
+        <p id="vat">You are visiting the Therme Meran.</p>
+        <h2>YOUR GALLERY</h2>
+        <div class="imglist">
+          <img src="museion.jpg">
+          <img src="museion1.jpg">
+          <img src="museion2.jpg">
+        </div>
+      </main>
+    </section>
+  </div>
+  <main id="explore" class="appwindow">
+    <section class="eintrag_container">
+      <div class="eintrag">
+        <span class="weil">WEIL DU AM VÖLSER WEIHER WARST</span>
+        <div class="imgcont" style="background-image: url('montigglersee.jpg')">
+          <span class="img_title">Badesee Montiggl</span>
+        </div>
+        <p>BESCHREIBUNG kurs jsdhafjhdfskjhgewestle</p>
+        <div class="tagcol">
+          <div class="tag">Badesee</div>
+          <div class="tag">Schwimmbad</div>
+          <div class="tag">Ligewiese</div>
+        </div>
+        <div class="tagcol">
+          <div class="tag">Eintritt: 5-10€</div>
+          <div class="tag">Punkte: 5</div>
+        </div>
+        <div class="infobuttons">
+          <a href="javascript:void(0)" onclick="openMoreInfo()">MORE INFOS</a>
+
+        </div>
+      </div>
+    </section>
+  </main>
+  <main id="saved" class="appwindow">
+    <section class="eintrag_container">
+    </section>
+  </main>
+  <main id="gifts" class="appwindow">
+    <section class="eintrag_container" style="display: block;width: 100vw;margin: 0 auto;padding-top: 1px;">
+      <div class="eintrag">
+        <span class="weil">Current Points</span>
+        <span class="points"><b id=punktezahl>25</b> Points</span>
+      </div>
+    </section>
+      <section class="eintrag_container">
+    <div class="eintrag">
+      <div class="imgcont" style="background-image: url('stars.jpg')">
+        <span class="img_title">Fries at STARS Burgers</span>
+      </div>
+      <p>A voucher for free Fries at STARS Bozen - Italian Gourmet Burgers</p>
+      <p><i>Offered by STARS Bolzano</i></p>
+      <h2>SUBJECTS</h2>
+      <div class="tagcol">
+        <div class="tag">food</div>
+        <div class="tag">gourmet</div>
+        <div class="tag">fries</div>
+      </div>
+      <h2>LOCATION</h2>
+      <div class="tagcol">
+        <div class="tag">bozen</div>
+      </div><div class="infobuttons">
+        <a href="javascript:void(0)" onclick="order(this, 20)">ORDER FOR 20 POINTS</a>
+        <span class="ordered">A COUPON CODE HAS BEEN SENT TO YOU VIA E-MAIL</span>
+      </div>
+    </div>
+  </section>
+    <section class="eintrag_container">
+  <div class="eintrag">
+    <div class="imgcont" style="background-image: url('windegger.jpg')">
+      <span class="img_title">Speck Kit</span>
+    </div>
+    <p>Get a small collections of classic south tirolean speck</p>
+    <p><i>Offered by Butcher Windegger</i></p>
+    <h2>SUBJECTS</h2>
+    <div class="tagcol">
+      <div class="tag">local</div>
+      <div class="tag">classic</div>
+      <div class="tag">speck</div>
+    </div>
+    <h2>LOCATION</h2>
+    <div class="tagcol">
+      <div class="tag">bozen</div>
+    </div><div class="infobuttons">
+      <a href="javascript:void(0)" onclick="order(this, 50)">ORDER FOR 50 POINTS</a>
+      <span class="ordered">A COUPON CODE HAS BEEN SENT TO YOU VIA E-MAIL</span>
+    </div>
+  </div>
+</section>
+  </main>
+  <main id="memories" class="appwindow">
+    <section class="eintrag_container">
+
+    </section>
+  </main>
+</body>
+<script>
+function openMenu(){
+  document.getElementById('nav').classList.toggle('open');
+}
+function closeInfo(){
+  document.getElementById('info').classList.add('closed');
+}
+function fillExplore(){
+  document.getElementById('explore').innerHTML = "";
+  for (var i = 0; i < ToExplore.length; i++) {
+    document.getElementById('explore').innerHTML += addBlock(ToExplore[i], i);
+  }
+}
+function fillSaved(){
+  document.getElementById('saved').innerHTML = "";
+  for (var i = 0; i < saved.length; i++) {
+    document.getElementById('saved').innerHTML += addBlock(saved[i], i);
+  }
+}
+function fillMemories(){
+  document.getElementById('memories').innerHTML = "";
+  for (var i = 0; i < memories.length; i++) {
+    document.getElementById('memories').innerHTML += addBlock(memories[i], i);
+  }
+}
+function addBlock(item, index){
+  var text = '<section class="eintrag_container" id="' + item['id'] + '"><div class="eintrag">';
+  if(item['weil'] != ""){
+    text += '<span class="weil">' + item['weil'] + '</span>';
+  }
+  text += '<div class="imgcont" style="background-image: url(\'' + item['bildurl'] + '\')"><span class="img_title">' + item['name'] + '</span></div>';
+  text += '<p>' + item['Beschreibung_kurz'] + '</p>';
+  if(item['type'] == "memory"){
+
+    text += '<h2>VISITED AT</h2><div class="tagcol">';
+    item['memoriesVA'].forEach(function(karl){
+      text += '<div class="tag">' + karl + '</div>';
+    });
+    text += '</div>';
+  }
+  text += '<h2>SUBJECTS</h2><div class="tagcol">';
+  item['themen'].forEach(function(karl){
+    text += '<div class="tag">' + karl + '</div>';
+  });
+  text += '</div>';
+  text += '<h2>LOCATION</h2><div class="tagcol">';
+  item['location'].forEach(function(karl){
+    text += '<div class="tag">' + karl + '</div>';
+  });
+  text += '</div>';
+  var arr = "saved";
+  if(item['type'] == "memory"){
+    arr = "memories";
+  } else if(item['type'] == "explore"){
+    arr = "ToExplore"
+  }
+  text += '<div class="infobuttons" id="ib' + item['id'] + '">'
+  if(item['type'] == "explore"){
+    text += '<a href="javascript:void(0)" onclick="save(\'' + item['id'] + '\')">SAVE</a>';
+  }
+  text += '<a href="javascript:void(0)" onclick="openMoreInfo(' + arr + '[' + index + '])">MORE INFOS</a></div>';
+
+  return text;
+}
+function openMoreInfo(arr){
+  document.getElementById('info').classList.remove('closed');
+      document.getElementById('openbeacon').classList.add('disabled');
+        document.getElementById('openactivity').classList.remove('disabled');
+        document.getElementById('iimage').style.backgroundImage  = "url('" +  arr["bildurl"] + "')";
+  document.getElementById('ititel').innerHTML = arr["name"];
+  document.getElementById('idesc').innerHTML = arr["Beschreibung_lang"];
+  document.getElementById('ipoint').innerHTML = arr["points"] + " Points";
+  document.getElementById('ipoint2').innerHTML = arr["points"];
+  document.getElementById('ipoint3').innerHTML = arr["points"] + " Points";
+  document.getElementById('addtosaved').setAttribute("onclick", "save(\'" + arr["id"] + "\')");
+  if(arr['type'] != "explore"){
+    document.getElementById('addtosaved').classList.add('disabled');
+  } else {
+    document.getElementById('addtosaved').classList.remove('disabled');
+  }
+  if(arr['type'] != "saved"){
+    document.getElementById('remove').classList.add('disabled');
+  } else {
+    document.getElementById('remove').classList.remove('disabled');
+  }
+  var text = '<h2>SUBJECTS</h2><div class="tagcol">';
+  arr['themen'].forEach(function(karl){
+    text += '<div class="tag">' + karl + '</div>';
+  });
+  text += '</div>';
+  text += '<h2>LOCATION</h2><div class="tagcol">';
+  arr['location'].forEach(function(karl){
+    text += '<div class="tag">' + karl + '</div>';
+  });
+  document.getElementById('itags').innerHTML = text;
+
+  if(arr['type'] != "memory"){
+    document.getElementById('openmemory').classList.add('disabled');
+    document.getElementById('openactivity').classList.remove('disabled');
+  } else {
+  document.getElementById('openactivity').classList.add('disabled');
+    document.getElementById('openmemory').classList.remove('disabled');
+    var text = "";
+    arr['memoriesVA'].forEach(function(karl){
+      text += '<div class="tag">' + karl + '</div>';
+    });
+    document.getElementById('vat').innerHTML = text;
+  }
+}
+function changeTab(index){
+  var tabs = ['explore', 'saved', 'gifts', 'memories'];
+  var titel = ['Explore', 'Destinations', 'Gifts', 'Memories'];
+  for(var o = 0; o < tabs.length; o++){
+    if(o == index){
+      document.getElementById(tabs[o]).classList.remove('disabled');
+    } else {
+      document.getElementById(tabs[o]).classList.add('disabled');
+    }
+  }
+  document.getElementById('title').innerHTML = titel[index];
+  document.getElementById('nav').classList.remove('open');
+  closeInfo();
+}
+function detectBeacon(){
+document.getElementById('nav').classList.remove('open');
+  document.getElementById('info').classList.remove('closed');
+  document.getElementById('iimage').style.backgroundImage  = "url('therme.jpg')";
+  document.getElementById('ititel').innerHTML = "Therme Meran";
+
+    document.getElementById('openbeacon').classList.remove('disabled');
+      document.getElementById('openactivity').classList.add('disabled');
+        document.getElementById('openmemory').classList.add('disabled');
+        document.getElementById('punktezahl').innerHTML = parseInt(document.getElementById('punktezahl').innerHTML) + 5;
+  var add = document.getElementById('ghj').outerHTML;
+  document.getElementById('ghj').parentElement.removeChild(document.getElementById('ghj'));
+  document.getElementById('memories').innerHTML += add;
+  for (var i = 0; i < saved.length; i++) {
+    if(saved[i]['id'] == 'ghj'){
+      memories.push(saved[i]);
+      memories[memories.length - 1]["type"] = "memory";
+    }
+  }
+  document.getElementById('saved').replace('saved[' + id + ']', 'memories[' + saved.length - 1 + ']');
+
+}
+function order(ele, points){
+  if(parseInt(document.getElementById('punktezahl').innerHTML) - points > 0){
+   ele.parentElement.classList.add('ord');
+   document.getElementById('punktezahl').innerHTML = parseInt(document.getElementById('punktezahl').innerHTML) - points;
+ }else {
+   alert('You havent got enough points');
+ }
+}
+function save(id){
+  closeInfo();
+  var add = document.getElementById(id).outerHTML;
+  document.getElementById(id).parentElement.removeChild(document.getElementById(id));
+  document.getElementById('saved').innerHTML += add;
+  document.getElementById('ib' + id).removeChild(document.getElementById('ib' + id).children[0]);
+  for (var i = 0; i < ToExplore.length; i++) {
+    if(ToExplore[i]['id'] == id){
+      saved.push(ToExplore[i]);
+      saved[saved.length - 1]["type"] = "saved";
+    }
+  }
+  document.getElementById('saved').replace('ToExplore[' + id + ']', 'saved[' + saved.length - 1 + ']');
+  alert('Saveing complete!');
+}
+fillExplore();
+fillMemories();
+fillSaved();
+changeTab(0);
+</script>
+</html>
